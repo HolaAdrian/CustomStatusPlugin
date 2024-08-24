@@ -1,0 +1,13 @@
+name: CustomStatus
+version: '${project.version}'
+main: de.adrian.customstatus.CustomStatus
+api-version: '1.20'
+commands:
+  status:
+    description: Setzte deinen Status im TAB
+  removestatus:
+    description: Entferne den Status von jemandem
+  addstatus:
+    description: Erstelle einen neuen Status
+  deletestatus:
+    description: Entferne einen Status
