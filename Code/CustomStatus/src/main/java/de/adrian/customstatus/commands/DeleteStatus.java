@@ -1,11 +1,14 @@
-package de.adrian.customstatus.commands;
+package de.adrian.customStatus.commands;
 
-import de.adrian.customstatus.CustomStatus;
+import de.adrian.customStatus.CustomStatus;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +33,29 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        //FortressCustomStatus.prefixs.remove(strings[0]);
+        for (Player p: Bukkit.getOnlinePlayers()){
+            String status = CustomStatus.prefix.get(p.getUniqueId());
+            if (status != null){
+                if (status.equals(CustomStatus.prefixs.get(strings[0]))){
+                    p.setPlayerListName(p.getName());
+                    CustomStatus.prefix.remove(p.getUniqueId());
+                }
+            }
+
+        }
+        for (OfflinePlayer p: Bukkit.getOfflinePlayers()){
+            String status = CustomStatus.prefix.get(p.getUniqueId());
+            if (status != null){
+                if (status.equals(CustomStatus.prefixs.get(strings[0]))){
+                    CustomStatus.prefix.remove(p.getUniqueId());
+                }
+            }
+
+        }
+
         CustomStatus.prefixs.remove(strings[0], CustomStatus.prefixs.get(strings[0]));
         commandSender.sendMessage(ChatColor.GREEN + "Der Status wurde entfernt.");
+
 
 
         return true;

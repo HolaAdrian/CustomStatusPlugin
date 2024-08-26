@@ -1,6 +1,6 @@
-package de.adrian.customstatus.commands;
+package de.adrian.customStatus.commands;
 
-import de.adrian.customstatus.CustomStatus;
+import de.adrian.customStatus.CustomStatus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -22,8 +22,9 @@ public class RemoveStatus implements CommandExecutor {
             return false;
         }
 
+
         if (Bukkit.getOfflinePlayer(strings[0]) == null){
-            commandSender.sendMessage(ChatColor.RED + "Der Spieler wurde nicht gefunden!");
+            commandSender.sendMessage(ChatColor.RED + "Der Spieler wurde nicht gefunden oder er hat kein Status!");
             return false;
         }
 

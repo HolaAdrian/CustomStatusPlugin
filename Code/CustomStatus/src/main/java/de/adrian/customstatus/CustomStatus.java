@@ -1,7 +1,11 @@
-package de.adrian.customstatus;
+package de.adrian.customStatus;
 
 import Utility.Importer;
 import Utility.SafeManager;
+import de.adrian.customStatus.commands.AddStatus;
+import de.adrian.customStatus.commands.DeleteStatus;
+import de.adrian.customStatus.commands.RemoveStatus;
+import de.adrian.customStatus.commands.StatusCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +22,8 @@ public final class CustomStatus extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        getLogger().info("CustomStatus plugin is being enabled...");
 
         Importer.ImportAll(Bukkit.getPluginManager(), this);
         if (!getConfig().contains("prefixs")){

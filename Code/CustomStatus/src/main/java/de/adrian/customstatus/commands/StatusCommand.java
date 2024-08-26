@@ -1,7 +1,7 @@
-package de.adrian.customstatus.commands;
+package de.adrian.customStatus.commands;
 
 import Utility.TabListUtils;
-import de.adrian.customstatus.CustomStatus;
+import de.adrian.customStatus.CustomStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -63,7 +63,6 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
                 startingWith.add(s1);
             }
         }
-
 
 
         return startingWith;

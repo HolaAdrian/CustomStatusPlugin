@@ -1,16 +1,15 @@
 package Utility;
 
-import de.adrian.customstatus.CustomStatus;
-import de.adrian.customstatus.commands.AddStatus;
-import de.adrian.customstatus.commands.DeleteStatus;
-import de.adrian.customstatus.commands.RemoveStatus;
-import de.adrian.customstatus.commands.StatusCommand;
-import de.adrian.customstatus.listeners.PlayerJoinListener;
+import de.adrian.customStatus.CustomStatus;
+import de.adrian.customStatus.commands.AddStatus;
+import de.adrian.customStatus.commands.DeleteStatus;
+import de.adrian.customStatus.commands.RemoveStatus;
+import de.adrian.customStatus.commands.StatusCommand;
+import de.adrian.customStatus.listeners.PlayerJoinListener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 
 public class Importer {
-
     public static void ImportAll(PluginManager pluginManager, CustomStatus main){
         ImportPermission(pluginManager);
         ImportCommands(main);

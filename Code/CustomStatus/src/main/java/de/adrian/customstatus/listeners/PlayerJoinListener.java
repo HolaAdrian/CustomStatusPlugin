@@ -1,4 +1,4 @@
-package de.adrian.customstatus.listeners;
+package de.adrian.customStatus.listeners;
 
 import Utility.TabListUtils;
 import org.bukkit.event.EventHandler;

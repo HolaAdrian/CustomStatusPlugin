@@ -1,12 +1,11 @@
 package Utility;
 
-import de.adrian.customstatus.CustomStatus;
+import de.adrian.customStatus.CustomStatus;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.UUID;
 
 public class SafeManager {
-
 
     public static void SafeAll(FileConfiguration config, CustomStatus main){
 
@@ -46,5 +45,6 @@ public class SafeManager {
         }
 
     }
+
 
 }
