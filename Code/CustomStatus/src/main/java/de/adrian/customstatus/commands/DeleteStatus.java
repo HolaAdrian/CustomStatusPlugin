@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +30,7 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        if (!CustomStatus.prefixs.containsKey(strings[0])){
+        if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
             commandSender.sendMessage(ChatColor.RED + "Der Status wurde nicht gefunden!");
             return false;
         }
@@ -38,7 +40,18 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
             if (status != null){
                 if (status.equals(CustomStatus.prefixs.get(strings[0]))){
                     p.setPlayerListName(p.getName());
+
+
                     CustomStatus.prefix.remove(p.getUniqueId());
+
+                    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+                    String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
+
+                    Team team = scoreboard.getTeam(teamName);
+                    if (team != null) {
+                        team.removeEntry(Bukkit.getPlayer(p.getUniqueId()).getName());
+                        team.unregister();
+                    }
                 }
             }
 
@@ -48,12 +61,23 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
             if (status != null){
                 if (status.equals(CustomStatus.prefixs.get(strings[0]))){
                     CustomStatus.prefix.remove(p.getUniqueId());
+
+                    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+                    String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
+
+                    Team team = scoreboard.getTeam(teamName);
+                    if (team != null) {
+                        team.removeEntry(Bukkit.getPlayer(p.getUniqueId()).getName());
+                        team.unregister();
+                    }
                 }
+
+
             }
 
         }
 
-        CustomStatus.prefixs.remove(strings[0], CustomStatus.prefixs.get(strings[0]));
+        CustomStatus.prefixs.remove(strings[0].toLowerCase(), CustomStatus.prefixs.get(strings[0].toLowerCase()));
         commandSender.sendMessage(ChatColor.GREEN + "Der Status wurde entfernt.");
 
 
@@ -68,7 +92,7 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
 
         if (strings.length ==1){
             for (String st: CustomStatus.prefixs.keySet()){
-                vorschläge.add(st);
+                vorschläge.add(st.toLowerCase());
             }
         }
         ArrayList<String> startingWith = new ArrayList<>();
@@ -77,7 +101,7 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
 
         for (String s1 : vorschläge) {
             if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
-                startingWith.add(s1);
+                startingWith.add(s1.toLowerCase());
             }
         }
 

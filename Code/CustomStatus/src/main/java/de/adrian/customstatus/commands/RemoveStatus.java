@@ -7,6 +7,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 public class RemoveStatus implements CommandExecutor {
@@ -37,6 +39,18 @@ public class RemoveStatus implements CommandExecutor {
         CustomStatus.prefix.remove(player.getUniqueId());
         if (Bukkit.getPlayer(player.getUniqueId()) != null){
             Bukkit.getPlayer(player.getUniqueId()).setPlayerListName(player.getName());
+
+
+
+
+            Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+            String teamName = "nick-" + Bukkit.getPlayer(player.getUniqueId()).getUniqueId().toString().substring(0, 8);
+
+            Team team = scoreboard.getTeam(teamName);
+            if (team != null) {
+                team.removeEntry(Bukkit.getPlayer(player.getUniqueId()).getName());
+                team.unregister();
+            }
         }
 
         commandSender.sendMessage(ChatColor.GREEN + "Der Status von " + player.getName() + " wurde entfernt.");

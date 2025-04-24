@@ -31,7 +31,7 @@ public class AddStatus  implements CommandExecutor {
         }
         prefix = prefix + " ";
 
-        CustomStatus.prefixs.put(strings[0], ChatColor.translateAlternateColorCodes('&', prefix));
+        CustomStatus.prefixs.put(strings[0].toLowerCase(), ChatColor.translateAlternateColorCodes('&', prefix));
         commandSender.sendMessage(ChatColor.GREEN + "Der Status " + strings[0] + " wurde hinzugefügt.");
 
 

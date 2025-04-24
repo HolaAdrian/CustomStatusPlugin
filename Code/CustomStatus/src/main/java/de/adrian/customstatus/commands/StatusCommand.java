@@ -27,7 +27,7 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        if (!CustomStatus.prefixs.containsKey(strings[0])){
+        if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
             commandSender.sendMessage(ChatColor.RED + "Der Status ist nicht vorhanden!");
             return false;
         }
@@ -38,7 +38,7 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
         }
 
         Player player = (Player) commandSender;
-        CustomStatus.prefix.put(player.getUniqueId(), CustomStatus.prefixs.get(strings[0]));
+        CustomStatus.prefix.put(player.getUniqueId(), CustomStatus.prefixs.get(strings[0].toLowerCase()));
         TabListUtils.SetPlayerTabListPrefix(player);
         player.sendMessage(ChatColor.GREEN + "Dein Status wurde geändert!");
         return true;
@@ -51,7 +51,7 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
 
         if (strings.length ==1){
             for (String st: CustomStatus.prefixs.keySet()){
-                vorschläge.add(st);
+                vorschläge.add(st.toLowerCase());
             }
         }
         ArrayList<String> startingWith = new ArrayList<>();
@@ -60,7 +60,7 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
 
         for (String s1 : vorschläge) {
             if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
-                startingWith.add(s1);
+                startingWith.add(s1.toLowerCase());
             }
         }
 

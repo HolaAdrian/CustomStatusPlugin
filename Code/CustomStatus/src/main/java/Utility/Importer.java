@@ -1,10 +1,7 @@
 package Utility;
 
 import de.adrian.customStatus.CustomStatus;
-import de.adrian.customStatus.commands.AddStatus;
-import de.adrian.customStatus.commands.DeleteStatus;
-import de.adrian.customStatus.commands.RemoveStatus;
-import de.adrian.customStatus.commands.StatusCommand;
+import de.adrian.customStatus.commands.*;
 import de.adrian.customStatus.listeners.PlayerJoinListener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;

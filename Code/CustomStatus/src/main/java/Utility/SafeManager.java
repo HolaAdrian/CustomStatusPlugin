@@ -17,6 +17,25 @@ public class SafeManager {
             config.set("prefixs." + string, CustomStatus.prefixs.get(string));
         }
 
+        config.set("usePlayerNamePrefix", config.getBoolean("usePlayerNamePrefix", true));
+        config.set("useNormalJoinMessage", config.getBoolean("useNormalJoinMessage", true));
+
+        config.options().header("#Permissions\n" +
+                "# -status.setstatus = Set your status\n" +
+                "# -status.removestatus = Remove someone's Status\n" +
+                "# -status.deletestatus = Delete your status\n" +
+                "# -status.addstatus = Add a status to the Server\n" +
+                "\n" +
+                "\n" +
+                "#  You can use color codes in the Statuses\n"+
+                "\n"+
+                "# usePlayerNamePrefix Decides whether the status should also be visible in front of the name when pressing F5.");
+
+        config.options().copyHeader(true);
+
+
+
+
         main.saveConfig();
 
 

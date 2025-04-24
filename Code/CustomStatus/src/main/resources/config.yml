@@ -1,11 +1,4 @@
+usePlayerNamePrefix: true
+useNormalJoinMessage: true
 prefixs:
 prefix:
-
-#Permissions
-# -status.setstatus = Set your status
-# -status.removestatus = Remove someone's Status
-# -status.deletestatus = Delete your status
-# -status.addstatus = Add a status to the Server
-
-
-#  You can use color codes in the Statuses
