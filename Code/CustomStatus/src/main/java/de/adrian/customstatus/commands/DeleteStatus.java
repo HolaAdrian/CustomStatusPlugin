@@ -1,6 +1,7 @@
-package de.adrian.customStatus.commands;
+package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
+import de.adrian.customStatus.Utility.SafeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteStatus implements CommandExecutor, TabCompleter {
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.deletestatus")){
@@ -77,10 +79,9 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
 
         }
 
-        CustomStatus.prefixs.remove(strings[0].toLowerCase(), CustomStatus.prefixs.get(strings[0].toLowerCase()));
+        CustomStatus.prefixs.remove(strings[0].toLowerCase());
+        SafeManager.SafeAll(CustomStatus.getInstance().getConfig(), CustomStatus.getInstance());
         commandSender.sendMessage(ChatColor.GREEN + "Der Status wurde entfernt.");
-
-
 
         return true;
     }
@@ -109,4 +110,5 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
 
         return startingWith;
     }
+
 }

@@ -1,8 +1,8 @@
-package de.adrian.customStatus.listeners;
+package de.adrian.customStatus.Listeners;
 
-import Utility.TabListUtils;
+
 import de.adrian.customStatus.CustomStatus;
-import net.kyori.adventure.text.Component;
+import de.adrian.customStatus.Utility.TabListUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +34,5 @@ public class PlayerJoinListener implements Listener {
 
 
     }
-
-
 
 }

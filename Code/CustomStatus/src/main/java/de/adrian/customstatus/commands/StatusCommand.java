@@ -1,7 +1,7 @@
-package de.adrian.customStatus.commands;
+package de.adrian.customStatus.Commands;
 
-import Utility.TabListUtils;
 import de.adrian.customStatus.CustomStatus;
+import de.adrian.customStatus.Utility.TabListUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusCommand implements CommandExecutor, TabCompleter {
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.setstatus")){
@@ -67,4 +68,5 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
 
         return startingWith;
     }
+
 }

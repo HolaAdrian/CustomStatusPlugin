@@ -1,5 +1,5 @@
 name: CustomStatus
-version: '3.0'
+version: '3.1'
 main: de.adrian.customStatus.CustomStatus
 api-version: '1.21'
 authors: [ hiadrian ]
@@ -13,3 +13,5 @@ commands:
     description: Erstelle einen neuen Status
   deletestatus:
     description: Entferne einen Status
+  adminpanel:
+    description: Öffne das Admin Panel

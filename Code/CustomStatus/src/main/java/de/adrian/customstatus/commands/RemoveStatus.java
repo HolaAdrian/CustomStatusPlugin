@@ -1,4 +1,4 @@
-package de.adrian.customStatus.commands;
+package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
 import org.bukkit.Bukkit;
@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 public class RemoveStatus implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.removestatus")){
@@ -58,4 +59,5 @@ public class RemoveStatus implements CommandExecutor {
 
         return true;
     }
+
 }

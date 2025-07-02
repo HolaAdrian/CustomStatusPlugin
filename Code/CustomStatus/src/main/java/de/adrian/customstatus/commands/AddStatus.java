@@ -1,4 +1,4 @@
-package de.adrian.customStatus.commands;
+package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
 import org.bukkit.ChatColor;
@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class AddStatus  implements CommandExecutor {
+public class AddStatus implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
