@@ -19,7 +19,7 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.setstatus")){
-            commandSender.sendMessage(ChatColor.RED + "Du hast keine Rechte diesen Command zu benutzen!");
+            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return false;
         }
 
@@ -29,44 +29,41 @@ public class StatusCommand implements CommandExecutor, TabCompleter {
         }
 
         if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
-            commandSender.sendMessage(ChatColor.RED + "Der Status ist nicht vorhanden!");
+            commandSender.sendMessage(ChatColor.RED + "This status doesn't exist!");
             return false;
         }
 
         if (!(commandSender instanceof Player)){
-            commandSender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein um deinen Status zu setzen!");
+            commandSender.sendMessage(ChatColor.RED + "You must be a player to set your status!");
             return false;
         }
 
         Player player = (Player) commandSender;
         CustomStatus.prefix.put(player.getUniqueId(), CustomStatus.prefixs.get(strings[0].toLowerCase()));
         TabListUtils.SetPlayerTabListPrefix(player);
-        player.sendMessage(ChatColor.GREEN + "Dein Status wurde geändert!");
+        player.sendMessage(ChatColor.GREEN + "Your status has been updated!");
         return true;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        ArrayList<String> vorschläge = new ArrayList<>();
-
+        ArrayList<String> suggestions = new ArrayList<>();
 
         if (strings.length ==1){
             for (String st: CustomStatus.prefixs.keySet()){
-                vorschläge.add(st.toLowerCase());
+                suggestions.add(st.toLowerCase());
             }
         }
         ArrayList<String> startingWith = new ArrayList<>();
 
         String arg = strings[strings.length -1];
 
-        for (String s1 : vorschläge) {
+        for (String s1 : suggestions) {
             if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
                 startingWith.add(s1.toLowerCase());
             }
         }
 
-
         return startingWith;
     }
-
 }

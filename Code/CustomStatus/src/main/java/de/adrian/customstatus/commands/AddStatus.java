@@ -12,12 +12,12 @@ public class AddStatus implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.addstatus")){
-            commandSender.sendMessage(ChatColor.RED + "Du hast keine Rechte diesen Command zu benutzen!");
+            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return false;
         }
 
         if (!(strings.length > 1)){
-            commandSender.sendMessage(ChatColor.RED + "/addstatus <statusname> <statusprefix (Mit colorcode &)>");
+            commandSender.sendMessage(ChatColor.RED + "/addstatus <statusname> <statusprefix (Use color code &)>");
             return false;
         }
 
@@ -26,16 +26,12 @@ public class AddStatus implements CommandExecutor {
             if (st != strings[0]){
                 prefix = prefix + " " + st;
             }
-
-
         }
         prefix = prefix + " ";
 
         CustomStatus.prefixs.put(strings[0].toLowerCase(), ChatColor.translateAlternateColorCodes('&', prefix));
-        commandSender.sendMessage(ChatColor.GREEN + "Der Status " + strings[0] + " wurde hinzugefügt.");
-
+        commandSender.sendMessage(ChatColor.GREEN + "The status " + strings[0] + " has been added.");
 
         return true;
     }
-
 }

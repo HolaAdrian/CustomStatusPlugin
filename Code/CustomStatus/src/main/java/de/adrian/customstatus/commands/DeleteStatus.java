@@ -23,7 +23,7 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.deletestatus")){
-            commandSender.sendMessage(ChatColor.RED + "Du hast keine Rechte diesen Command zu benutzen!");
+            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return false;
         }
 
@@ -33,7 +33,7 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
         }
 
         if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
-            commandSender.sendMessage(ChatColor.RED + "Der Status wurde nicht gefunden!");
+            commandSender.sendMessage(ChatColor.RED + "Status not found!");
             return false;
         }
 
@@ -42,8 +42,6 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
             if (status != null){
                 if (status.equals(CustomStatus.prefixs.get(strings[0]))){
                     p.setPlayerListName(p.getName());
-
-
                     CustomStatus.prefix.remove(p.getUniqueId());
 
                     Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -56,7 +54,6 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
                     }
                 }
             }
-
         }
         for (OfflinePlayer p: Bukkit.getOfflinePlayers()){
             String status = CustomStatus.prefix.get(p.getUniqueId());
@@ -73,42 +70,35 @@ public class DeleteStatus implements CommandExecutor, TabCompleter {
                         team.unregister();
                     }
                 }
-
-
             }
-
         }
 
         CustomStatus.prefixs.remove(strings[0].toLowerCase());
         SafeManager.SafeAll(CustomStatus.getInstance().getConfig(), CustomStatus.getInstance());
-        commandSender.sendMessage(ChatColor.GREEN + "Der Status wurde entfernt.");
+        commandSender.sendMessage(ChatColor.GREEN + "Status has been removed.");
 
         return true;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        ArrayList<String> vorschläge = new ArrayList<>();
-
+        ArrayList<String> suggestions = new ArrayList<>();
 
         if (strings.length ==1){
             for (String st: CustomStatus.prefixs.keySet()){
-                vorschläge.add(st.toLowerCase());
+                suggestions.add(st.toLowerCase());
             }
         }
         ArrayList<String> startingWith = new ArrayList<>();
 
         String arg = strings[strings.length -1];
 
-        for (String s1 : vorschläge) {
+        for (String s1 : suggestions) {
             if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
                 startingWith.add(s1.toLowerCase());
             }
         }
 
-
-
         return startingWith;
     }
-
 }

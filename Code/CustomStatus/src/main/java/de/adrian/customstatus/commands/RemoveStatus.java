@@ -16,7 +16,7 @@ public class RemoveStatus implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!commandSender.hasPermission("status.removestatus")){
-            commandSender.sendMessage(ChatColor.RED + "Du hast keine Rechte diesen Command zu benutzen!");
+            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return false;
         }
 
@@ -25,24 +25,20 @@ public class RemoveStatus implements CommandExecutor {
             return false;
         }
 
-
         if (Bukkit.getOfflinePlayer(strings[0]) == null){
-            commandSender.sendMessage(ChatColor.RED + "Der Spieler wurde nicht gefunden oder er hat kein Status!");
+            commandSender.sendMessage(ChatColor.RED + "Player not found or doesn't have a status!");
             return false;
         }
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(strings[0]);
         if (!CustomStatus.prefix.containsKey(player.getUniqueId())){
-            commandSender.sendMessage(ChatColor.RED +  "Der Spieler hat keinen Status!");
+            commandSender.sendMessage(ChatColor.RED + "This player doesn't have a status!");
             return false;
         }
 
         CustomStatus.prefix.remove(player.getUniqueId());
         if (Bukkit.getPlayer(player.getUniqueId()) != null){
             Bukkit.getPlayer(player.getUniqueId()).setPlayerListName(player.getName());
-
-
-
 
             Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             String teamName = "nick-" + Bukkit.getPlayer(player.getUniqueId()).getUniqueId().toString().substring(0, 8);
@@ -54,10 +50,8 @@ public class RemoveStatus implements CommandExecutor {
             }
         }
 
-        commandSender.sendMessage(ChatColor.GREEN + "Der Status von " + player.getName() + " wurde entfernt.");
-
+        commandSender.sendMessage(ChatColor.GREEN + "Status has been removed from " + player.getName() + ".");
 
         return true;
     }
-
 }
