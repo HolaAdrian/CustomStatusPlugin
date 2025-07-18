@@ -2,7 +2,7 @@ package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
 import de.adrian.customStatus.Utility.TabListUtils;
-import org.bukkit.ChatColor;
+import de.adrian.customStatus.Utility.TranslationManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,53 +17,51 @@ import java.util.List;
 public class StatusCommand implements CommandExecutor, TabCompleter {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!commandSender.hasPermission("status.setstatus")){
-            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        TranslationManager tm = CustomStatus.getTranslationManager();
+        String lang = CustomStatus.getInstance().getLanguage();
+
+        if (!commandSender.hasPermission("status.setstatus")) {
+            commandSender.sendMessage(tm.getTranslation("no_permission", lang));
             return false;
         }
 
-        if (!(strings.length == 1)){
-            commandSender.sendMessage(ChatColor.RED + "Syntax: /status <status>");
+        if (args.length != 1) {
+            commandSender.sendMessage(tm.getTranslation("status_syntax", lang));
             return false;
         }
 
-        if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
-            commandSender.sendMessage(ChatColor.RED + "This status doesn't exist!");
+        String statusKey = args[0].toLowerCase();
+        if (!CustomStatus.prefixs.containsKey(statusKey)) {
+            commandSender.sendMessage(tm.getTranslation("status_not_found", lang));
             return false;
         }
 
-        if (!(commandSender instanceof Player)){
-            commandSender.sendMessage(ChatColor.RED + "You must be a player to set your status!");
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage(tm.getTranslation("must_be_player_set_status", lang));
             return false;
         }
 
         Player player = (Player) commandSender;
-        CustomStatus.prefix.put(player.getUniqueId(), CustomStatus.prefixs.get(strings[0].toLowerCase()));
+        CustomStatus.prefix.put(player.getUniqueId(), CustomStatus.prefixs.get(statusKey));
         TabListUtils.SetPlayerTabListPrefix(player);
-        player.sendMessage(ChatColor.GREEN + "Your status has been updated!");
+        commandSender.sendMessage(tm.getTranslation("status_updated", lang));
         return true;
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        ArrayList<String> suggestions = new ArrayList<>();
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> suggestions = new ArrayList<>();
 
-        if (strings.length ==1){
-            for (String st: CustomStatus.prefixs.keySet()){
-                suggestions.add(st.toLowerCase());
-            }
-        }
-        ArrayList<String> startingWith = new ArrayList<>();
-
-        String arg = strings[strings.length -1];
-
-        for (String s1 : suggestions) {
-            if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
-                startingWith.add(s1.toLowerCase());
+        if (args.length == 1) {
+            String input = args[0].toLowerCase();
+            for (String status : CustomStatus.prefixs.keySet()) {
+                if (status.toLowerCase().startsWith(input)) {
+                    suggestions.add(status.toLowerCase());
+                }
             }
         }
 
-        return startingWith;
+        return suggestions;
     }
 }

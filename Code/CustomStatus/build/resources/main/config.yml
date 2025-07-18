@@ -2,3 +2,4 @@ usePlayerNamePrefix: true
 useNormalJoinMessage: true
 prefixs:
 prefix:
+language: en

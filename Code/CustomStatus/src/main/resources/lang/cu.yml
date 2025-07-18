@@ -1,0 +1,36 @@
+# Permission Messages
+no_permission: ""
+must_be_player: ""
+must_be_player_set_status: ""
+
+# Command Syntax
+addstatus_syntax: ""
+deletestatus_syntax: ""
+removestatus_syntax: ""
+status_syntax: ""
+
+# Status Management
+status_added: ""
+status_not_found: ""
+status_removed: ""
+player_status_removed: ""
+status_updated: ""
+no_player_status: ""
+player_not_found: ""
+
+# Creation Process
+creation_cancelled: ""
+enter_prefix: ""
+enter_name: ""
+
+# GUI Messages
+create_status_button: ""
+remove_status_button: ""
+delete_status_button: ""
+create_status_title: ""
+remove_status_title: ""
+delete_status_title: ""
+select_status_to_delete: ""
+delete_status_confirmation: ""
+select_player_to_remove: ""
+remove_status_confirmation: ""

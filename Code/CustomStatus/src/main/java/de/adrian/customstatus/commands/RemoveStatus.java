@@ -1,8 +1,8 @@
 package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
+import de.adrian.customStatus.Utility.TranslationManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,44 +14,49 @@ import org.jetbrains.annotations.NotNull;
 public class RemoveStatus implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!commandSender.hasPermission("status.removestatus")){
-            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        TranslationManager tm = CustomStatus.getTranslationManager();
+        String lang = CustomStatus.getInstance().getLanguage();
+
+        if (!commandSender.hasPermission("status.removestatus")) {
+            commandSender.sendMessage(tm.getTranslation("no_permission", lang));
             return false;
         }
 
-        if (!(strings.length == 1)){
-            commandSender.sendMessage(ChatColor.RED + "Syntax: /removestatus <player>");
+        if (args.length != 1) {
+            commandSender.sendMessage(tm.getTranslation("removestatus_syntax", lang));
             return false;
         }
 
-        if (Bukkit.getOfflinePlayer(strings[0]) == null){
-            commandSender.sendMessage(ChatColor.RED + "Player not found or doesn't have a status!");
+        OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+        if (player == null || player.getName() == null) {
+            commandSender.sendMessage(tm.getTranslation("player_not_found", lang));
             return false;
         }
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(strings[0]);
-        if (!CustomStatus.prefix.containsKey(player.getUniqueId())){
-            commandSender.sendMessage(ChatColor.RED + "This player doesn't have a status!");
+        if (!CustomStatus.prefix.containsKey(player.getUniqueId())) {
+            commandSender.sendMessage(tm.getTranslation("no_player_status", lang));
             return false;
         }
 
+        // Remove from status tracking
         CustomStatus.prefix.remove(player.getUniqueId());
-        if (Bukkit.getPlayer(player.getUniqueId()) != null){
-            Bukkit.getPlayer(player.getUniqueId()).setPlayerListName(player.getName());
+
+        // Cleanup if online
+        if (player.isOnline()) {
+            player.getPlayer().setPlayerListName(player.getName());
 
             Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-            String teamName = "nick-" + Bukkit.getPlayer(player.getUniqueId()).getUniqueId().toString().substring(0, 8);
-
+            String teamName = "nick-" + player.getUniqueId().toString().substring(0, 8);
             Team team = scoreboard.getTeam(teamName);
+
             if (team != null) {
-                team.removeEntry(Bukkit.getPlayer(player.getUniqueId()).getName());
+                team.removeEntry(player.getName());
                 team.unregister();
             }
         }
 
-        commandSender.sendMessage(ChatColor.GREEN + "Status has been removed from " + player.getName() + ".");
-
+        commandSender.sendMessage(tm.getTranslation("player_status_removed", lang, player.getName()));
         return true;
     }
 }

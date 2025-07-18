@@ -2,8 +2,8 @@ package de.adrian.customStatus.Commands;
 
 import de.adrian.customStatus.CustomStatus;
 import de.adrian.customStatus.Utility.SafeManager;
+import de.adrian.customStatus.Utility.TranslationManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,84 +21,80 @@ import java.util.List;
 public class DeleteStatus implements CommandExecutor, TabCompleter {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!commandSender.hasPermission("status.deletestatus")){
-            commandSender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        TranslationManager tm = CustomStatus.getTranslationManager();
+        String lang = CustomStatus.getInstance().getLanguage();
+
+        if (!sender.hasPermission("status.deletestatus")) {
+            sender.sendMessage(tm.getTranslation("no_permission", lang));
             return false;
         }
 
-        if (!(strings.length == 1)){
-            commandSender.sendMessage(ChatColor.RED + "Syntax: /deletestatus <status>");
+        if (args.length != 1) {
+            sender.sendMessage(tm.getTranslation("deletestatus_syntax", lang));
             return false;
         }
 
-        if (!CustomStatus.prefixs.containsKey(strings[0].toLowerCase())){
-            commandSender.sendMessage(ChatColor.RED + "Status not found!");
+        String statusKey = args[0].toLowerCase();
+        String statusValue = CustomStatus.prefixs.get(statusKey);
+        if (statusValue == null) {
+            sender.sendMessage(tm.getTranslation("status_not_found", lang));
             return false;
         }
 
-        for (Player p: Bukkit.getOnlinePlayers()){
-            String status = CustomStatus.prefix.get(p.getUniqueId());
-            if (status != null){
-                if (status.equals(CustomStatus.prefixs.get(strings[0]))){
-                    p.setPlayerListName(p.getName());
-                    CustomStatus.prefix.remove(p.getUniqueId());
+        // Remove from online players
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            String current = CustomStatus.prefix.get(p.getUniqueId());
+            if (statusValue.equals(current)) {
+                p.setPlayerListName(p.getName());
+                CustomStatus.prefix.remove(p.getUniqueId());
 
-                    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-                    String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
-
-                    Team team = scoreboard.getTeam(teamName);
-                    if (team != null) {
-                        team.removeEntry(Bukkit.getPlayer(p.getUniqueId()).getName());
-                        team.unregister();
-                    }
-                }
-            }
-        }
-        for (OfflinePlayer p: Bukkit.getOfflinePlayers()){
-            String status = CustomStatus.prefix.get(p.getUniqueId());
-            if (status != null){
-                if (status.equals(CustomStatus.prefixs.get(strings[0]))){
-                    CustomStatus.prefix.remove(p.getUniqueId());
-
-                    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-                    String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
-
-                    Team team = scoreboard.getTeam(teamName);
-                    if (team != null) {
-                        team.removeEntry(Bukkit.getPlayer(p.getUniqueId()).getName());
-                        team.unregister();
-                    }
+                Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+                String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
+                Team team = scoreboard.getTeam(teamName);
+                if (team != null) {
+                    team.removeEntry(p.getName());
+                    team.unregister();
                 }
             }
         }
 
-        CustomStatus.prefixs.remove(strings[0].toLowerCase());
+        // Remove from offline players
+        for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+            String current = CustomStatus.prefix.get(p.getUniqueId());
+            if (statusValue.equals(current)) {
+                CustomStatus.prefix.remove(p.getUniqueId());
+
+                Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+                String teamName = "nick-" + p.getUniqueId().toString().substring(0, 8);
+                Team team = scoreboard.getTeam(teamName);
+                if (team != null) {
+                    team.removeEntry(p.getName());
+                    team.unregister();
+                }
+            }
+        }
+
+        CustomStatus.prefixs.remove(statusKey);
         SafeManager.SafeAll(CustomStatus.getInstance().getConfig(), CustomStatus.getInstance());
-        commandSender.sendMessage(ChatColor.GREEN + "Status has been removed.");
 
+        sender.sendMessage(tm.getTranslation("status_removed", lang));
         return true;
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        ArrayList<String> suggestions = new ArrayList<>();
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if (args.length != 1) return null;
 
-        if (strings.length ==1){
-            for (String st: CustomStatus.prefixs.keySet()){
-                suggestions.add(st.toLowerCase());
-            }
-        }
-        ArrayList<String> startingWith = new ArrayList<>();
+        String partial = args[0].toLowerCase();
+        List<String> matches = new ArrayList<>();
 
-        String arg = strings[strings.length -1];
-
-        for (String s1 : suggestions) {
-            if (s1.toLowerCase().startsWith(arg)|| s1.startsWith(arg)){
-                startingWith.add(s1.toLowerCase());
+        for (String status : CustomStatus.prefixs.keySet()) {
+            if (status.toLowerCase().startsWith(partial)) {
+                matches.add(status.toLowerCase());
             }
         }
 
-        return startingWith;
+        return matches;
     }
 }

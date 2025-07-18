@@ -1,5 +1,5 @@
 name: CustomStatus
-version: '3.1'
+version: '4.0'
 main: de.adrian.customStatus.CustomStatus
 api-version: '1.21'
 authors: [ hiadrian ]

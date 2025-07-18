@@ -13,30 +13,79 @@ import java.util.UUID;
 
 public class Logic {
 
-    public static void DeleteStatus(Player p){
-        TextComponent delete = new TextComponent(org.bukkit.ChatColor.BOLD + "" + ChatColor.AQUA + "Click on the status you want to delete:");
+    public static void DeleteStatus(Player p) {
+        String language = CustomStatus.getInstance().getLanguage();
+        TranslationManager translationManager = CustomStatus.getTranslationManager();
+
+        // Send header message
+        TextComponent delete = new TextComponent(translationManager.getTranslation(
+                "select_status_to_delete",
+                language
+        ));
         p.spigot().sendMessage(delete);
-        for (String s: CustomStatus.prefixs.keySet()){
-            TextComponent st = new TextComponent(s);
-            st.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/deletestatus " + s));
-            st.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("Delete status: " + s)));
-            p.spigot().sendMessage(st);
+
+        // Send clickable status list
+        for (String status : CustomStatus.prefixs.keySet()) {
+            TextComponent statusComponent = new TextComponent(status);
+            statusComponent.setClickEvent(new ClickEvent(
+                    ClickEvent.Action.RUN_COMMAND,
+                    "/deletestatus " + status
+            ));
+            statusComponent.setHoverEvent(new HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT,
+                    TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                            translationManager.getTranslation(
+                                    "delete_status_confirmation",
+                                    language
+                            ) + status)
+                    )
+            ));
+            p.spigot().sendMessage(statusComponent);
         }
     }
 
-    public static void RemoveStatus(Player p){
-        TextComponent delete = new TextComponent(org.bukkit.ChatColor.BOLD + "" + ChatColor.AQUA + "Click on the player whose status you want to remove:");
-        p.spigot().sendMessage(delete);
-        for (UUID uuid: CustomStatus.prefix.keySet()){
-            TextComponent st = new TextComponent(Bukkit.getOfflinePlayer(uuid).getName());
-            st.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/removestatus " + Bukkit.getOfflinePlayer(uuid).getName()));
-            st.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("Remove status from: " + Bukkit.getOfflinePlayer(uuid).getName())));
-            p.spigot().sendMessage(st);
+    public static void RemoveStatus(Player p) {
+        String language = CustomStatus.getInstance().getLanguage();
+        TranslationManager translationManager = CustomStatus.getTranslationManager();
+
+        // Send header message
+        TextComponent header = new TextComponent(translationManager.getTranslation(
+                "select_player_to_remove",
+                language
+        ));
+        p.spigot().sendMessage(header);
+
+        // Send clickable player list
+        for (UUID uuid : CustomStatus.prefix.keySet()) {
+            String playerName = Objects.requireNonNullElse(
+                    Bukkit.getOfflinePlayer(uuid).getName(),
+                    "Unknown Player"
+            );
+
+            TextComponent playerComponent = new TextComponent(playerName);
+            playerComponent.setClickEvent(new ClickEvent(
+                    ClickEvent.Action.RUN_COMMAND,
+                    "/removestatus " + playerName
+            ));
+            playerComponent.setHoverEvent(new HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT,
+                    TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                            translationManager.getTranslation(
+                                    "remove_status_confirmation",
+                                    language
+                            ) + playerName)
+                    )
+            ));
+            p.spigot().sendMessage(playerComponent);
         }
     }
 
-    public static void CreateStatus(Player p){
-        p.sendMessage(ChatColor.BOLD + "" + ChatColor.RED + "Type CANCEL to abort the process! \n" + ChatColor.AQUA + "Enter the name under which the status should be saved:");
+    public static void CreateStatus(Player p) {
+        String language = CustomStatus.getInstance().getLanguage();
+        p.sendMessage(CustomStatus.getTranslationManager().getTranslation(
+                "enter_name",
+                language
+        ));
         CustomStatus.prefixname.remove(p.getUniqueId());
         CustomStatus.creating.put(p.getUniqueId(), "A");
     }

@@ -1,0 +1,36 @@
+# Permission Messages
+no_permission: "&cYou don't have permission to use this command!"
+must_be_player: "&cYou must be a player to execute this command!"
+must_be_player_set_status: "&cYou must be a player to set your status!"
+
+# Command Syntax
+addstatus_syntax: "&c/addstatus <statusname> <statusprefix (Use color code &)>"
+deletestatus_syntax: "&cSyntax: /deletestatus <status>"
+removestatus_syntax: "&cSyntax: /removestatus <player>"
+status_syntax: "&cSyntax: /status <status>"
+
+# Status Management
+status_added: "&aThe status {0} has been added."
+status_not_found: "&cStatus not found!"
+status_removed: "&aStatus has been removed."
+player_status_removed: "&aStatus has been removed from {0}."
+status_updated: "&aYour status has been updated!"
+no_player_status: "&cThis player doesn't have a status!"
+player_not_found: "&cPlayer not found or doesn't have a status!"
+
+# Creation Process
+creation_cancelled: "&aCreation process cancelled."
+enter_prefix: "&l&cType CANCEL to abort the process! \n&bEnter what the status prefix should be:"
+enter_name: "&l&cType CANCEL to abort the process! \n&bEnter the name under which the status should be saved:"
+
+# GUI Messages
+create_status_button: "&6Click to create a new status!"
+remove_status_button: "&6Remove someone's status!"
+delete_status_button: "&6Delete an already existing status!"
+create_status_title: "&6Create Status!"
+remove_status_title: "&6Remove Status!"
+delete_status_title: "&6Delete Status!"
+select_status_to_delete: "&l&bClick on the status you want to delete:"
+delete_status_confirmation: "Delete status: "
+select_player_to_remove: "&l&bClick on the player whose status you want to remove:"
+remove_status_confirmation: "Remove status from: "
