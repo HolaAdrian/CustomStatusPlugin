@@ -1,9 +1,11 @@
 SimpleSpawn
 
-Simple spawn plugin with customizable message prefix.
+Simple spawn plugin with customizable message prefix and language options.
 ✨ Features
 
     Easily set a custom prefix for plugin messages via the config.yml.
+
+    Easily change the language or set custom messages via the config.yml
 
     Compatible with most Minecraft versions.
 
